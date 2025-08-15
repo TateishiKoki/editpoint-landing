@@ -1,0 +1,29 @@
+{
+  "name": "editpoint-landing",
+  "version": "1.0.0",
+  "description": "EdiPoint PowerPoint アドインツールのランディングページ",
+  "main": "index.html",
+  "scripts": {
+    "build-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "dev": "concurrently \"npm run build-css\" \"live-server --port=3000\"",
+    "start": "live-server --port=3000"
+  },
+  "keywords": [
+    "powerpoint",
+    "addin",
+    "presentation",
+    "landing-page",
+    "tailwindcss"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "@tailwindcss/typography": "^0.5.10",
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
+  }
+}
