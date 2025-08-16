@@ -12,72 +12,67 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Tailwind の簡易テーマ拡張（ブランドカラー）
+    // Tailwind のテーマ拡張（ブランドカラー #0078D4）
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            brand: {
-              50: '#eff6ff', 100:'#dbeafe', 200:'#bfdbfe', 300:'#93c5fd', 400:'#60a5fa',
-              500:'#3b82f6', 600:'#2563eb', 700:'#1d4ed8', 800:'#1e40af', 900:'#1e3a8a'
-            }
+            brand: { 50: '#eef7ff', 100:'#d7ecff', 200:'#b6ddff', 300:'#89c9ff', 400:'#5ab2ff', 500:'#2d99f8', 600:'#0078D4', 700:'#005fa7', 800:'#004a82', 900:'#00345c' }
           },
-          fontFamily: {
-            sans: ["Inter", "Noto Sans JP", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "\"Noto Sans JP\"", "\"Apple Color Emoji\"", "\"Segoe UI Emoji\"", "\"Segoe UI Symbol\""]
-          },
-          boxShadow: {
-            soft: '0 10px 30px rgba(0,0,0,0.08)'
-          }
+          fontFamily: { sans: ["Inter", "Noto Sans JP", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial"] },
+          boxShadow: { soft: '0 10px 30px rgba(0,0,0,0.10)', glow: '0 0 25px rgba(0,120,212,0.35)' }
         }
       }
     }
   </script>
-
   <style>
-    /* ---- 軽量アニメーション & パララックス背景 ---- */
-    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+    /* ==========================
+       基本アニメーション/ユーティリティ
+       ========================== */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
     .reveal.show { opacity: 1; transform: translateY(0); }
-
-    .parallax-bg {
-      position: fixed; inset: -20vmax; z-index: -1;
-      background:
-        radial-gradient(40vmax 40vmax at 20% 10%, rgba(59,130,246,0.12), transparent 60%),
-        radial-gradient(35vmax 35vmax at 90% 10%, rgba(59,130,246,0.08), transparent 60%),
-        radial-gradient(50vmax 40vmax at 60% 80%, rgba(2,6,23,0.10), transparent 60%);
-      filter: blur(8px);
-      pointer-events: none;
-    }
+    .scroll-progress { position:fixed; top:0; left:0; height:3px; width:0; background:linear-gradient(90deg,#0078D4,#66bfff); z-index:60 }
+    .parallax-bg { position: fixed; inset: -20vmax; z-index: -1; background: radial-gradient(40vmax 40vmax at 20% 10%, rgba(0,120,212,0.12), transparent 60%), radial-gradient(35vmax 35vmax at 90% 10%, rgba(0,120,212,0.08), transparent 60%), radial-gradient(50vmax 40vmax at 60% 80%, rgba(2,6,23,0.10), transparent 60%); filter: blur(8px); pointer-events: none; }
+    @keyframes floatY { from { transform:translateY(0)} 50%{transform:translateY(-10px)} to {transform:translateY(0)} }
+    @keyframes marquee { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
+    @keyframes glowPulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,120,212,.35)} 50%{box-shadow:0 0 0 12px rgba(0,120,212,0)} }
+    .float { animation: floatY 6s ease-in-out infinite; }
+    .marquee { overflow:hidden; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+    .marquee-track { display:flex; gap:3rem; min-width:200%; animation: marquee 22s linear infinite; }
+    .magnetic { position: relative; display:inline-block; transition: transform 0.2s ease; }
+    .kpi-number { font-variant-numeric: tabular-nums; }
     /* Before/After スライダー */
     .ba-wrap { position: relative; overflow: hidden; }
     .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .ba-after { clip-path: inset(0 0 0 50%); transition: clip-path .2s ease; }
   </style>
 </head>
-<body class="antialiased text-neutral-800 bg-white selection:bg-brand-100">
-  <div class="parallax-bg" aria-hidden="true"></div>
+<body class="antialiased text-neutral-900 bg-white selection:bg-brand-100 font-sans">
+  <!-- ==========================
+       Scroll Progress + Bg
+       ========================== -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="parallax-bg"></div>
 
   <!-- ==========================
-       Header（固定ヘッダー）
+       Header（固定）
        ========================== -->
-  <!-- 目的：主要CTAへ素早く誘導するナビ。スクロールで半透明のガラス風に変化し、軽い高級感を付与。 -->
   <header id="top" class="fixed top-0 left-0 right-0 z-50 transition-all">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 rounded-xl mt-3 bg-white/70 backdrop-blur-md ring-1 ring-black/5 shadow-soft px-4">
         <a href="#top" class="flex items-center gap-2">
-          <div class="h-6 w-6 rounded-md bg-gradient-to-br from-brand-500 to-brand-700"></div>
+          <div class="h-6 w-6 rounded-md bg-gradient-to-br from-brand-600 to-brand-800"></div>
           <span class="font-semibold">EdiPoint</span>
         </a>
         <nav class="hidden md:flex items-center gap-8 text-sm">
           <a href="#features" class="hover:text-neutral-600">特徴</a>
           <a href="#demo" class="hover:text-neutral-600">デモ</a>
-          <a href="#stories" class="hover:text-neutral-600">事例</a>
+          <a href="#stories" class="hover:text-neutral-600">β募集</a>
           <a href="#pricing" class="hover:text-neutral-600">料金</a>
           <a href="#faq" class="hover:text-neutral-600">FAQ</a>
-          <a href="#cta" class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-white font-medium hover:bg-brand-700 transition">無料で試す</a>
+          <a href="#cta" class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-white font-medium hover:bg-brand-700 transition magnetic" data-magnetic><span>無料で試す</span></a>
         </nav>
-        <a href="#beta" class="hidden md:inline-flex items-center gap-2 rounded-lg bg-neutral-900/80 px-3 py-2 text-white text-xs font-medium hover:bg-neutral-900 transition ml-4">
-          βテスター募集
-        </a>
+        <a href="#beta" class="hidden md:inline-flex items-center gap-2 rounded-lg bg-neutral-900/80 px-3 py-2 text-white text-xs font-medium hover:bg-neutral-900 transition ml-4">βテスター募集</a>
         <button id="menuBtn" class="md:hidden inline-flex items-center justify-center rounded-md p-2 hover:bg-neutral-100" aria-label="メニュー">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
@@ -86,10 +81,9 @@
         <div class="p-3 grid gap-2 text-sm">
           <a href="#features" class="px-3 py-2 rounded hover:bg-neutral-100">特徴</a>
           <a href="#demo" class="px-3 py-2 rounded hover:bg-neutral-100">デモ</a>
-          <a href="#stories" class="px-3 py-2 rounded hover:bg-neutral-100">事例</a>
+          <a href="#stories" class="px-3 py-2 rounded hover:bg-neutral-100">β募集</a>
           <a href="#pricing" class="px-3 py-2 rounded hover:bg-neutral-100">料金</a>
           <a href="#faq" class="px-3 py-2 rounded hover:bg-neutral-100">FAQ</a>
-          <a href="#beta" class="px-3 py-2 rounded hover:bg-neutral-100">βテスター募集</a>
           <a href="#cta" class="mt-2 inline-flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-white font-medium hover:bg-brand-700 transition">無料で試す</a>
         </div>
       </div>
@@ -100,77 +94,94 @@
     <!-- ==========================
          Hero / First View
          ========================== -->
-    <!-- 目的：強いベネフィット訴求＋モックアップで使用イメージを即伝達。主要CTAを配置。 -->
-    <section class="relative pt-36 pb-20 md:pt-40 md:pb-28">
+    <section class="relative pt-36 pb-20 md:pt-40 md:pb-28 bg-gradient-to-br from-brand-50 via-white to-brand-100 overflow-hidden">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center">
         <div class="reveal">
-          <div class="inline-flex items-center gap-2 rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-600 ring-1 ring-black/5">新製品 • PowerPoint アドイン</div>
-          <h1 class="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
-            あなたのスライド、<span class="bg-gradient-to-r from-neutral-900 to-neutral-600 bg-clip-text text-transparent">1クリックでプロ品質</span>
-          </h1>
-          <p class="mt-5 text-neutral-600 max-w-xl">EdiPointは、ブランド統一・整列・配色・ルール適用を自動化。<br class="hidden md:block"/>資料作成の“面倒”を最短の操作に集約します。</p>
+          <div class="inline-flex items-center gap-2 rounded-full bg-white/70 ring-1 ring-black/5 px-3 py-1 text-xs text-neutral-600">新製品 • PowerPoint アドイン</div>
+          <h1 class="mt-4 text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">あなたのスライド、<span class="text-brand-600">1クリック</span>でプロ品質</h1>
+          <p class="mt-5 text-neutral-600 max-w-xl">EdiPointは、ブランド統一・整列・配色・ルール適用を自動化。資料作成の“面倒”を最短の操作に集約します。</p>
           <div class="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#cta" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3 text-white font-semibold shadow-soft hover:bg-brand-700 transition">
-              無料で試す
+            <a href="#cta" class="magnetic inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3 text-white font-semibold shadow-soft hover:bg-brand-700 transition" data-magnetic>
+              <span>無料で試す</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14m-7-7l7 7-7 7"/></svg>
             </a>
-            <a href="#demo" class="inline-flex items-center gap-2 rounded-xl px-6 py-3 ring-1 ring-black/10 hover:bg-neutral-50 transition">1分でわかる動画</a>
-            <span class="text-xs text-neutral-500">クレカ不要 • 14日間トライアル</span>
+            <a href="#comparison" class="inline-flex items-center gap-2 rounded-xl px-6 py-3 ring-1 ring-black/10 hover:bg-neutral-50 transition">他社比較を見る</a>
+            <span class="text-xs text-neutral-500">クレカ不要 • 14日トライアル</span>
+          </div>
+          <div class="mt-6 flex items-center gap-4 text-xs text-neutral-500">
+            <div class="inline-flex items-center gap-1"><span class="h-1.5 w-1.5 rounded-full bg-brand-600"></span> ブランド逸脱を自動検知</div>
+            <div class="inline-flex items-center gap-1"><span class="h-1.5 w-1.5 rounded-full bg-brand-600"></span> Windows版 PowerPoint対応</div>
           </div>
         </div>
         <div class="reveal">
-          <!-- 製品モックアップ（ダミー画像） -->
-          <div class="relative rounded-2xl ring-1 ring-black/10 bg-white shadow-soft overflow-hidden">
+          <!-- 製品モックアップ（チルト＋パララックス） -->
+          <div class="relative rounded-2xl ring-1 ring-black/10 bg-white shadow-soft overflow-hidden" id="heroMock">
             <img src="https://placehold.co/960x600/png?text=EdiPoint+UI+Mockup" alt="EdiPoint UI モックアップ" class="w-full h-auto" />
-            <div class="absolute -bottom-6 -left-6 h-28 w-28 rounded-3xl bg-gradient-to-br from-brand-400 to-brand-700 opacity-60 blur-2xl"></div>
-            <div class="absolute -top-6 -right-10 h-24 w-24 rounded-full bg-brand-500/20 blur-xl"></div>
+            <div class="absolute -bottom-6 -left-6 h-28 w-28 rounded-3xl bg-gradient-to-br from-brand-400 to-brand-700 opacity-60 blur-2xl" data-parallax data-speed="0.6"></div>
+            <div class="absolute -top-6 -right-10 h-24 w-24 rounded-full bg-brand-600/20 blur-xl" data-parallax data-speed="0.9"></div>
+          </div>
+        </div>
+      </div>
+      <!-- KPI strip: β前でも使える“社内検証”の数値表現 -->
+      <div class="mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="rounded-2xl ring-1 ring-black/5 bg-white p-5 text-center shadow-soft reveal">
+            <div class="text-xs text-neutral-500">整列・体裁の時短</div>
+            <div class="kpi-number text-3xl font-extrabold" data-count="62">0</div>
+            <div class="text-xs text-neutral-400">*社内検証平均</div>
+          </div>
+          <div class="rounded-2xl ring-1 ring-black/5 bg-white p-5 text-center shadow-soft reveal">
+            <div class="text-xs text-neutral-500">テンプレ適用の成功率</div>
+            <div class="kpi-number text-3xl font-extrabold" data-count="98">0</div>
+            <div class="text-xs text-neutral-400">*ブランド逸脱検知含む</div>
+          </div>
+          <div class="rounded-2xl ring-1 ring-black/5 bg-white p-5 text-center shadow-soft reveal">
+            <div class="text-xs text-neutral-500">初回学習に要する時間</div>
+            <div class="kpi-number text-3xl font-extrabold" data-count="10">0</div>
+            <div class="text-xs text-neutral-400">分で基本操作</div>
+          </div>
+          <div class="rounded-2xl ring-1 ring-black/5 bg-white p-5 text-center shadow-soft reveal">
+            <div class="text-xs text-neutral-500">推奨環境満足度</div>
+            <div class="kpi-number text-3xl font-extrabold" data-count="96">0</div>
+            <div class="text-xs text-neutral-400">*社内アンケート</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ==========================
-         Features（3-5 項目）
+         Features
          ========================== -->
-    <!-- 目的：価値のコア（スピード・一貫性・操作性）を端的に。アイコン＋短文で訴求。 -->
     <section id="features" class="py-16 md:py-24 bg-neutral-50">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center reveal">
           <h2 class="text-3xl md:text-4xl font-bold">“速い・揃う・迷わない” を、標準に</h2>
-          <p class="mt-3 text-neutral-600">企業のブランドルールを保ったまま、誰でも短時間で“映える”スライドに。</p>
+          <p class="mt-3 text-neutral-600">ブランドルールを保ったまま、短時間で“映える”スライドに。</p>
         </div>
         <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <!-- Feature 1 -->
           <div class="reveal rounded-2xl bg-white p-6 ring-1 ring-black/5 shadow-soft">
             <div class="h-10 w-10 rounded-lg bg-brand-600/10 text-brand-700 flex items-center justify-center">
-              <!-- アイコン（ペンツール風） -->
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.75 19.9 3 21l1.1-3.75L16.862 4.487z"/></svg>
             </div>
             <h3 class="mt-4 font-semibold">デザイン統一を自動化</h3>
-            <p class="mt-2 text-sm text-neutral-600">フォント・カラー・余白・グリッドをテンプレ化。ブランドガイドラインを自動適用。</p>
+            <p class="mt-2 text-sm text-neutral-600">フォント/カラー/余白/グリッドをテンプレ化。ブランドガイドラインを自動適用。</p>
           </div>
-          <!-- Feature 2 -->
           <div class="reveal rounded-2xl bg-white p-6 ring-1 ring-black/5 shadow-soft">
             <div class="h-10 w-10 rounded-lg bg-brand-600/10 text-brand-700 flex items-center justify-center">
-              <!-- アイコン（稲妻） -->
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             </div>
             <h3 class="mt-4 font-semibold">作業時間を大幅短縮</h3>
             <p class="mt-2 text-sm text-neutral-600">整列・均等割付・図形スタイル・差し替えを1クリック化。繰り返し作業を排除。</p>
           </div>
-          <!-- Feature 3 -->
           <div class="reveal rounded-2xl bg-white p-6 ring-1 ring-black/5 shadow-soft">
             <div class="h-10 w-10 rounded-lg bg-brand-600/10 text-brand-700 flex items-center justify-center">
-              <!-- アイコン（シールド） -->
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253l8-3.2V11c0 5.25-3.5 10.25-8 12-4.5-1.75-8-6.75-8-12V3.053l8 3.2z"/></svg>
             </div>
             <h3 class="mt-4 font-semibold">ブランド逸脱を防止</h3>
             <p class="mt-2 text-sm text-neutral-600">ロゴ・カラーパレット・表記ゆれをガード。社外共有前の最終チェックも自動。</p>
           </div>
-          <!-- Feature 4 -->
           <div class="reveal rounded-2xl bg-white p-6 ring-1 ring-black/5 shadow-soft">
             <div class="h-10 w-10 rounded-lg bg-brand-600/10 text-brand-700 flex items-center justify-center">
-              <!-- アイコン（手のひら） -->
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 11V5a2 2 0 114 0v6m0-4a2 2 0 114 0v4m0-2a2 2 0 114 0v2m-6 4v3a3 3 0 006 0v-3"/></svg>
             </div>
             <h3 class="mt-4 font-semibold">直感的で迷わない</h3>
@@ -183,13 +194,11 @@
     <!-- ==========================
          Before / After & デモ
          ========================== -->
-    <!-- 目的：視覚的に“変わる”体験を提示。1分動画で操作感を想起させる。 -->
     <section id="demo" class="py-16 md:py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
         <div class="reveal">
           <h2 class="text-2xl md:text-3xl font-bold">Before / After</h2>
           <p class="mt-3 text-neutral-600">スライドの整列・配色・余白調整をワンクリック。スライダーで比較できます。</p>
-
           <div class="mt-6 rounded-2xl ring-1 ring-black/10 shadow-soft overflow-hidden">
             <div class="ba-wrap aspect-[16/10] bg-neutral-100">
               <img src="https://placehold.co/1280x800/EEEEEE/999999?text=Before" alt="Before スライド" class="ba-img"/>
@@ -202,18 +211,14 @@
             </div>
           </div>
         </div>
-
         <div class="reveal">
           <h2 class="text-2xl md:text-3xl font-bold">1分でわかるデモ</h2>
           <p class="mt-3 text-neutral-600">基本操作〜テンプレ適用までをショート動画で。</p>
-
-          <!-- デモ動画（ダミー） -->
           <div class="mt-6 relative rounded-2xl ring-1 ring-black/10 bg-white shadow-soft overflow-hidden">
             <video controls poster="https://placehold.co/1280x800/png?text=EdiPoint+Demo+Preview" class="w-full h-auto">
               <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
             </video>
           </div>
-
           <ul class="mt-6 grid sm:grid-cols-2 gap-3 text-sm text-neutral-600">
             <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-600"></span> 整列・余白の最適化</li>
             <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-brand-600"></span> カラーパレット＆フォント統一</li>
@@ -227,32 +232,30 @@
     <!-- ==========================
          Announcement / Beta ribbon
          ========================== -->
-    <!-- 目的：リリース前の信頼補強としてβテスター導線をサイト上部でも訴求。 -->
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div id="beta" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="reveal mb-6 rounded-xl bg-gradient-to-r from-neutral-900 to-neutral-700 text-white p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div class="flex items-center gap-3">
           <span class="inline-flex items-center justify-center h-6 px-2 rounded-full bg-brand-600 text-xs font-semibold">β</span>
-          <p class="text-sm">EdiPoint βテスターを限定募集中。導入・教育サポートつき、無償利用（期間限定）。</p>
+          <p class="text-sm">EdiPoint βテスターを限定募集中。導入・教育サポートつき、無償利用（1カ月）。</p>
         </div>
         <div class="flex items-center gap-3 text-xs text-neutral-200">
-          <span class="inline-flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3zM19 21a7 7 0 10-14 0h14z"/></svg>法人/個人いずれも可</span>
-          <span class="inline-flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7h18M3 12h18M3 17h18"/></svg>利用レポートの提出のみ</span>
+          <span class="inline-flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3zM19 21a7 7 0 10-14 0h14z"/></svg>法人/個人可</span>
+          <span class="inline-flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7h18M3 12h18M3 17h18"/></svg>レポート提出のみ</span>
         </div>
         <button data-open-beta class="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2 text-white text-sm font-medium hover:bg-brand-700 transition shadow-soft">βテスターに応募</button>
       </div>
     </div>
 
     <!-- ==========================
-         Logos / Stories（実績がない前提の見せ方）
+         Stories（β前の期待の声）
          ========================== -->
-    <!-- 目的：βテスター募集と“期待の声”を先に見せる。実運用ロゴは公開後差し替え可能。 -->
     <section id="stories" class="py-16 md:py-24 bg-neutral-50">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="reveal text-center">
           <h2 class="text-2xl md:text-3xl font-bold">βテスター募集中</h2>
           <p class="mt-3 text-neutral-600">初期導入企業を限定募集しています。導入・教育サポートつき。</p>
           <div class="mt-4 inline-flex items-center gap-2 text-xs text-neutral-500">
-            <span class="inline-flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"/></svg> 参加費用無料（3ヶ月）</span>
+            <span class="inline-flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"/></svg> 参加費用無料（1カ月）</span>
             <span class="inline-flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"/></svg> 機能要望の優先反映</span>
             <span class="inline-flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"/></svg> 導入支援オンボーディング</span>
           </div>
@@ -260,16 +263,18 @@
             <button data-open-beta class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3 text-white font-semibold hover:bg-brand-700 transition shadow-soft">βテスターに応募する</button>
           </div>
         </div>
-        <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 items-center">
-          <img src="https://placehold.co/160x64?text=LOGO" alt="ロゴ" class="reveal grayscale opacity-70 hover:opacity-100 transition" />
-          <img src="https://placehold.co/160x64?text=LOGO" alt="ロゴ" class="reveal grayscale opacity-70 hover:opacity-100 transition" />
-          <img src="https://placehold.co/160x64?text=LOGO" alt="ロゴ" class="reveal grayscale opacity-70 hover:opacity-100 transition" />
-          <img src="https://placehold.co/160x64?text=LOGO" alt="ロゴ" class="reveal grayscale opacity-70 hover:opacity-100 transition" />
-          <img src="https://placehold.co/160x64?text=LOGO" alt="ロゴ" class="reveal grayscale opacity-70 hover:opacity-100 transition" />
-          <img src="https://placehold.co/160x64?text=LOGO" alt="ロゴ" class="reveal grayscale opacity-70 hover:opacity-100 transition" />
+        <div class="mt-10 marquee rounded-2xl ring-1 ring-black/5 bg-white py-6 reveal">
+          <div class="marquee-track items-center">
+            <img src="https://placehold.co/160x64?text=LOGO" class="grayscale opacity-60 hover:opacity-100 transition" alt="logo"/>
+            <img src="https://placehold.co/160x64?text=LOGO" class="grayscale opacity-60 hover:opacity-100 transition" alt="logo"/>
+            <img src="https://placehold.co/160x64?text=LOGO" class="grayscale opacity-60 hover:opacity-100 transition" alt="logo"/>
+            <img src="https://placehold.co/160x64?text=LOGO" class="grayscale opacity-60 hover:opacity-100 transition" alt="logo"/>
+            <img src="https://placehold.co/160x64?text=LOGO" class="grayscale opacity-60 hover:opacity-100 transition" alt="logo"/>
+            <img src="https://placehold.co/160x64?text=LOGO" class="grayscale opacity-60 hover:opacity-100 transition" alt="logo"/>
+            <img src="https://placehold.co/160x64?text=LOGO" class="grayscale opacity-60 hover:opacity-100 transition" alt="logo"/>
+            <img src="https://placehold.co/160x64?text=LOGO" class="grayscale opacity-60 hover:opacity-100 transition" alt="logo"/>
+          </div>
         </div>
-
-        <!-- 期待の声（匿名の仮テキスト） -->
         <div class="mt-12 grid md:grid-cols-3 gap-6">
           <figure class="reveal rounded-2xl bg-white p-6 ring-1 ring-black/5 shadow-soft">
             <blockquote class="text-neutral-700">「定例の資料づくり、体感で半分以下の時間に。特に表の体裁が一瞬で整うのが最高。」</blockquote>
@@ -290,7 +295,6 @@
     <!-- ==========================
          Pricing（料金）
          ========================== -->
-    <!-- 目的：最小限の選択肢で迷いをなくす。無料トライアル導線を明確化。 -->
     <section id="pricing" class="py-16 md:py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="reveal text-center">
@@ -298,7 +302,6 @@
           <p class="mt-3 text-neutral-600">まずは無料でお試し。チーム導入もシンプルに。</p>
         </div>
         <div class="mt-10 grid md:grid-cols-3 gap-6">
-          <!-- Free -->
           <div class="reveal rounded-2xl bg-white p-6 ring-1 ring-black/5 shadow-soft flex flex-col">
             <h3 class="font-semibold">Free</h3>
             <p class="mt-1 text-sm text-neutral-500">14日間トライアル</p>
@@ -310,9 +313,9 @@
             </ul>
             <a href="#cta" class="mt-auto inline-flex justify-center rounded-xl bg-neutral-900 text-white px-4 py-2 font-medium hover:bg-neutral-800 transition">今すぐ試す</a>
           </div>
-          <!-- Pro -->
-          <div class="reveal rounded-2xl bg-white p-6 ring-2 ring-brand-600 shadow-soft flex flex-col">
-            <h3 class="font-semibold flex items-center gap-2">Pro <span class="text-xs inline-flex items-center px-2 py-0.5 rounded-full bg-brand-600 text-white">おすすめ</span></h3>
+          <div class="reveal rounded-2xl bg-white p-6 ring-2 ring-brand-600 shadow-soft flex flex-col relative">
+            <div class="absolute -top-3 right-4 text-[10px] bg-brand-600 text-white rounded-full px-2 py-0.5">おすすめ</div>
+            <h3 class="font-semibold">Pro</h3>
             <p class="mt-1 text-sm text-neutral-500">個人/少人数チーム向け</p>
             <div class="mt-4 text-3xl font-extrabold">¥980<span class="text-base font-normal text-neutral-500"> / ユーザー・月</span></div>
             <ul class="mt-6 space-y-2 text-sm text-neutral-700">
@@ -322,7 +325,6 @@
             </ul>
             <a href="#cta" class="mt-auto inline-flex justify-center rounded-xl bg-brand-600 text-white px-4 py-2 font-medium hover:bg-brand-700 transition">無料で始める</a>
           </div>
-          <!-- Business -->
           <div class="reveal rounded-2xl bg-white p-6 ring-1 ring-black/5 shadow-soft flex flex-col">
             <h3 class="font-semibold">Business</h3>
             <p class="mt-1 text-sm text-neutral-500">部門/全社導入向け</p>
@@ -340,10 +342,72 @@
     </section>
 
     <!-- ==========================
+         Comparison（他サービスとの比較）
+         ========================== -->
+    <section id="comparison" class="py-10 md:py-16 bg-neutral-50">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="reveal text-center mb-6">
+          <h3 class="text-xl md:text-2xl font-bold">他サービスとの比較</h3>
+          <p class="mt-2 text-neutral-600">EdiPointは「ブランド統一 × 生産性 × 日本企業対応」で選ばれます。</p>
+        </div>
+        <div class="overflow-x-auto rounded-2xl bg-white ring-1 ring-black/5 shadow-soft">
+          <table class="w-full text-sm">
+            <thead class="bg-brand-600 text-white">
+              <tr>
+                <th class="text-left p-4">項目</th>
+                <th class="text-left p-4">EdiPoint</th>
+                <th class="text-left p-4">think-cell</th>
+                <th class="text-left p-4">Bizbenrie</th>
+                <th class="text-left p-4">EE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t">
+                <td class="p-4 font-medium">ブランドガイドの自動適用/逸脱防止</td>
+                <td class="p-4 text-brand-700 font-semibold">◎ ロゴ/色/書式/表記ゆれを自動チェック</td>
+                <td class="p-4">△ 主にグラフ周辺</td>
+                <td class="p-4">△ テンプレ中心</td>
+                <td class="p-4">△ デザイン補助寄り</td>
+              </tr>
+              <tr class="border-t bg-neutral-50/50">
+                <td class="p-4 font-medium">作業時短（整列/配色/体裁）</td>
+                <td class="p-4 text-brand-700 font-semibold">◎ 1クリック整形 + 推奨ガイド</td>
+                <td class="p-4">○ グラフは強力</td>
+                <td class="p-4">○ よく使う操作を短縮</td>
+                <td class="p-4">△ 一部</td>
+              </tr>
+              <tr class="border-t">
+                <td class="p-4 font-medium">高度なグラフ自動化</td>
+                <td class="p-4">△ 一部を順次対応（β）</td>
+                <td class="p-4 text-brand-700 font-semibold">◎ ガント/ウォーターフォール等</td>
+                <td class="p-4">△ 限定的</td>
+                <td class="p-4">△ 限定的</td>
+              </tr>
+              <tr class="border-t bg-neutral-50/50">
+                <td class="p-4 font-medium">日本語UI/サポート</td>
+                <td class="p-4 text-brand-700 font-semibold">◎ 日本語最適化・国内導入支援</td>
+                <td class="p-4">△ 英語中心</td>
+                <td class="p-4">◎ 日本語</td>
+                <td class="p-4">◎ 日本語</td>
+              </tr>
+              <tr class="border-t">
+                <td class="p-4 font-medium">法人導入（SSO/権限/SLA）</td>
+                <td class="p-4 text-brand-700 font-semibold">◎ Businessで提供</td>
+                <td class="p-4">○ あり（要確認）</td>
+                <td class="p-4">△ 限定的</td>
+                <td class="p-4">△ 限定的</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-neutral-500 mt-3">※ 機能は各社の公開情報・一般的な利用イメージに基づく比較です。最新の仕様は各サービスの公式情報をご確認ください。</p>
+      </div>
+    </section>
+
+    <!-- ==========================
          FAQ
          ========================== -->
-    <!-- 目的：購入前の不安を先回りで解消。回答は短く端的に。 -->
-    <section id="faq" class="py-16 md:py-24 bg-neutral-50">
+    <section id="faq" class="py-16 md:py-24">
       <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div class="reveal text-center">
           <h2 class="text-2xl md:text-3xl font-bold">FAQ</h2>
@@ -355,7 +419,7 @@
             <p class="mt-2 text-sm text-neutral-600">Windows版 PowerPoint（Microsoft 365 / 2019以降）に対応予定。macOS対応はロードマップにて検討中です。</p>
           </details>
           <details class="reveal group rounded-xl bg-white p-4 ring-1 ring-black/5 shadow-soft">
-            <summary class="flex cursor-pointer items-center justify-between font-medium">トライアルの制限はありますか？<svg class="w-5 h-5 transition group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 9l6 6 6-6"/></svg></summary>
+            <summary class="flex cursor-pointer items-center justify-between font-medium">トライアルの制限は？<svg class="w-5 h-5 transition group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 9l6 6 6-6"/></svg></summary>
             <p class="mt-2 text-sm text-neutral-600">基本機能を14日間無料でお使いいただけます。出力時にウォーターマークが入ります。</p>
           </details>
           <details class="reveal group rounded-xl bg-white p-4 ring-1 ring-black/5 shadow-soft">
@@ -371,29 +435,35 @@
     </section>
 
     <!-- ==========================
-         CTA（ダウンロード / トライアル）
+         CTA
          ========================== -->
-    <!-- 目的：最後の背中押し。べた塗りのアクセントと小さな安心材料を併記。 -->
-    <section id="cta" class="py-16 md:py-20">
+    <section id="cta" class="py-14 md:py-20">
       <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div class="reveal rounded-3xl bg-neutral-900 text-white p-8 md:p-12 overflow-hidden relative">
-          <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-600/20 blur-2xl"></div>
+        <div class="reveal rounded-3xl bg-gradient-to-br from-brand-700 to-brand-600 text-white p-8 md:p-12 overflow-hidden relative">
+          <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div>
           <div class="grid md:grid-cols-3 gap-8 items-center">
             <div class="md:col-span-2">
               <h3 class="text-2xl md:text-3xl font-bold">今すぐ、資料作成の“無駄”をゼロへ</h3>
-              <p class="mt-3 text-neutral-300">クレジットカード不要の14日間トライアル。いつでもキャンセル可能。</p>
+              <p class="mt-3 text-white/80">クレジットカード不要の14日間トライアル。いつでもキャンセル可能。</p>
             </div>
             <div class="flex md:justify-end">
-              <a href="#" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3 text-white font-semibold hover:bg-brand-700 transition shadow-soft">EdiPoint を無料で試す</a>
+              <a href="#" class="magnetic inline-flex items-center gap-2 rounded-xl bg-white/95 text-brand-700 px-6 py-3 font-semibold hover:bg-white transition shadow-soft" data-magnetic><span>EdiPoint を無料で試す</span></a>
             </div>
           </div>
         </div>
       </div>
     </section>
-      <!-- ==========================
+
+    <!-- ==========================
+         Sticky mobile CTA（CV最大化）
+         ========================== -->
+    <div class="fixed bottom-3 left-0 right-0 z-50 px-4 md:hidden">
+      <a href="#cta" class="block text-center rounded-xl bg-brand-600 text-white py-3 font-semibold shadow-soft">無料で試す</a>
+    </div>
+
+    <!-- ==========================
          Beta Application Modal
          ========================== -->
-    <!-- 目的：応募の摩擦を最小化。離脱を防ぐためモーダルで完結。 -->
     <div id="betaModal" class="fixed inset-0 z-[60] hidden">
       <div class="absolute inset-0 bg-black/40"></div>
       <div class="absolute inset-0 grid place-items-center p-4">
@@ -408,21 +478,21 @@
             <div class="grid md:grid-cols-2 gap-4">
               <div>
                 <label class="text-xs text-neutral-500">お名前</label>
-                <input type="text" required class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200" placeholder="山田 太郎" />
+                <input name="name" type="text" required class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200" placeholder="山田 太郎" />
               </div>
               <div>
                 <label class="text-xs text-neutral-500">勤務先メール</label>
-                <input type="email" required class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200" placeholder="taro.yamada@company.co.jp" />
+                <input name="email" type="email" required class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200" placeholder="taro.yamada@company.co.jp" />
               </div>
             </div>
             <div class="grid md:grid-cols-2 gap-4">
               <div>
                 <label class="text-xs text-neutral-500">会社名</label>
-                <input type="text" class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200" placeholder="株式会社〇〇" />
+                <input name="company" type="text" class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200" placeholder="株式会社〇〇" />
               </div>
               <div>
                 <label class="text-xs text-neutral-500">チーム規模</label>
-                <select class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200">
+                <select name="team" class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200">
                   <option>1人</option>
                   <option>2-10人</option>
                   <option>11-50人</option>
@@ -433,33 +503,33 @@
             </div>
             <div>
               <label class="text-xs text-neutral-500">主な利用シーン</label>
-              <textarea rows="3" class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200" placeholder="営業資料、経営会議、提案書 など"></textarea>
+              <textarea name="usecase" rows="3" class="mt-1 w-full rounded-lg border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-200" placeholder="営業資料、経営会議、提案書 など"></textarea>
             </div>
             <div class="flex items-start gap-2 text-xs text-neutral-600">
               <input id="agree" type="checkbox" required class="mt-0.5">
               <label for="agree">応募にあたり、<a href="#" class="underline">プライバシーポリシー</a> と <a href="#" class="underline">βプログラム利用条件</a> に同意します。</label>
             </div>
+            <div class="text-[11px] text-neutral-500">β提供期間：<strong>1カ月</strong>（延長の可能性あり）</div>
+            <input type="hidden" name="beta_period" value="1カ月" />
             <div class="flex items-center justify-between">
-              <p class="text-[11px] text-neutral-500">※ 選考によりご参加枠をご案内します。企業・個人を問わず応募可能。</p>
+              <p class="text-[11px] text-neutral-500">※ 選考によりご参加枠をご案内します。企業・個人問わず応募可。</p>
               <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-white font-medium hover:bg-brand-700 transition">送信する</button>
             </div>
           </form>
         </div>
       </div>
     </div>
-
   </main>
 
   <!-- ==========================
        Footer
        ========================== -->
-  <!-- 目的：企業情報・各種リンクの集約。ミニマルなフッター。 -->
-  <footer id="contact" class="border-t border-neutral-200 py-10">
+  <footer id="contact" class="border-t border-neutral-200 py-10 bg-neutral-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="grid md:grid-cols-4 gap-8 text-sm">
         <div class="space-y-3">
           <div class="flex items-center gap-2">
-            <div class="h-6 w-6 rounded-md bg-gradient-to-br from-brand-500 to-brand-700"></div>
+            <div class="h-6 w-6 rounded-md bg-gradient-to-br from-brand-600 to-brand-800"></div>
             <span class="font-semibold">EdiPoint</span>
           </div>
           <p class="text-neutral-600">PowerPointアドインで、誰でもプロ仕上げ。</p>
@@ -501,7 +571,7 @@
   </footer>
 
   <!-- ==========================
-       Scripts（軽量）
+       Scripts
        ========================== -->
   <script>
     // モバイルナビ
@@ -509,36 +579,84 @@
     const mobileNav = document.getElementById('mobileNav');
     menuBtn?.addEventListener('click', () => mobileNav?.classList.toggle('hidden'));
 
+    // Smooth scroll for hash links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{ const id = a.getAttribute('href'); if(id && id.length>1){ e.preventDefault(); document.querySelector(id)?.scrollIntoView({behavior:'smooth'}); } });
+    });
+
     // IntersectionObserver で .reveal をふわっと表示
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('show');
-      });
-    }, { threshold: 0.12 });
+    const io = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); }); }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // Before/After スライダー
-    const range = document.getElementById('baRange');
-    const afterImg = document.getElementById('afterImg');
-    const baVal = document.getElementById('baValue');
-    const divider = document.getElementById('divider');
-    function updateBA(v) {
-      // v は 0-100。左から v% を After にする（= 右側をBeforeに残す）
-      const right = 100 - v; // clip-path の右側マージン
-      afterImg.style.clipPath = `inset(0 0 0 ${right}%)`;
-      divider.style.left = `${v}%`;
-      baVal.textContent = `${v}%`;
+    // Scroll progress bar
+    const sp = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', ()=>{ const h = document.documentElement; const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight); sp.style.width = `${scrolled*100}%`; });
+
+    // Tilt effect on hero mockup
+    const mock = document.getElementById('heroMock');
+    if (mock) {
+      const r = 12; // rotation range
+      mock.addEventListener('mousemove', (e)=>{ const b = mock.getBoundingClientRect(); const rx = ((e.clientY - b.top) / b.height - 0.5) * -r; const ry = ((e.clientX - b.left) / b.width - 0.5) * r; mock.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`; });
+      mock.addEventListener('mouseleave', ()=>{ mock.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)'; });
     }
-    range?.addEventListener('input', (e) => updateBA(e.target.value));
-    updateBA(range?.value || 50);
+
+    // Parallax accents
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    window.addEventListener('scroll', ()=>{ const y = window.scrollY; parallaxEls.forEach(el=>{ const speed = parseFloat(el.getAttribute('data-speed')||'1'); el.style.transform = `translateY(${y * 0.02 * speed}px)`; }); }, { passive:true });
+
+    // Magnetic buttons
+    document.querySelectorAll('[data-magnetic]').forEach(btn=>{ const strength = 18; btn.addEventListener('mousemove', (e)=>{ const b = btn.getBoundingClientRect(); const x = e.clientX - (b.left + b.width/2); const y = e.clientY - (b.top + b.height/2); btn.style.transform = `translate(${x/strength}px, ${y/strength}px)`; }); btn.addEventListener('mouseleave', ()=>{ btn.style.transform = 'translate(0,0)'; }); });
+
+    // Count-up when visible
+    const counters = document.querySelectorAll('.kpi-number');
+    const cIo = new IntersectionObserver((entries)=>{ entries.forEach(entry=>{ if(!entry.isIntersecting) return; const el = entry.target; cIo.unobserve(el); const target = parseInt(el.getAttribute('data-count')||'0',10); const suffix = el.nextElementSibling?.textContent?.includes('%') ? '%' : ''; let v=0; const dur=900; const t0=performance.now(); function step(t){ const p=Math.min(1,(t-t0)/dur); v = Math.floor(target * (0.2 + 0.8*p*p)); el.textContent = suffix? `${v}%` : `${v}`; if(p<1) requestAnimationFrame(step); } requestAnimationFrame(step); }); }, { threshold: 0.5 });
+    counters.forEach(el=>cIo.observe(el));
 
     // 年号
     document.getElementById('year').textContent = new Date().getFullYear();
-      // βモーダル開閉
+
+    // βモーダル開閉
     const betaModal = document.getElementById('betaModal');
     document.querySelectorAll('[data-open-beta]')?.forEach(btn => btn.addEventListener('click', () => betaModal.classList.remove('hidden')));
     document.querySelectorAll('[data-close-beta]')?.forEach(btn => btn.addEventListener('click', () => betaModal.classList.add('hidden')));
     betaModal?.addEventListener('click', (e) => { if (e.target === betaModal) betaModal.classList.add('hidden'); });
+
+    /* ==========================
+       Slack 通知（任意・コメントアウトで無効）
+       本番ではサーバ中継推奨。検証用にクライアント直叩きの例を残します。
+    ========================== */
+    /*
+    const SLACK_WEBHOOK_URL = ""; // 例: https://hooks.slack.com/services/XXX/YYY/ZZZ
+    const betaForm = document.querySelector('#betaModal form');
+    betaForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!SLACK_WEBHOOK_URL) { alert('送信しました。※Slack連携は未設定'); return; }
+      const fd = new FormData(betaForm);
+      const payload = {
+        text: `🧪 EdiPoint β応募
+`+
+              `お名前: ${fd.get('name')||''}
+`+
+              `勤務先メール: ${fd.get('email')||''}
+`+
+              `会社名: ${fd.get('company')||''}
+`+
+              `チーム規模: ${fd.get('team')||''}
+`+
+              `利用シーン: ${fd.get('usecase')||''}
+`+
+              `β期間: ${fd.get('beta_period')||'1カ月'}`
+      };
+      try { await fetch(SLACK_WEBHOOK_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+        alert('送信しました。Slackにも通知しました。'); betaModal.classList.add('hidden'); betaForm.reset();
+      } catch(err){ console.error(err); alert('送信しましたが、Slack通知に失敗しました。'); }
+    });
+    */
+
+    // Respect prefers-reduced-motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('.marquee-track').forEach(t=>t.style.animation = 'none');
+    }
   </script>
 </body>
 </html>
