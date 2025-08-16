@@ -356,9 +356,9 @@
               <tr>
                 <th class="text-left p-4">項目</th>
                 <th class="text-left p-4">EdiPoint</th>
-                <th class="text-left p-4">think-cell</th>
-                <th class="text-left p-4">Bizbenrie</th>
-                <th class="text-left p-4">EE</th>
+                <th class="text-left p-4">T</th>
+                <th class="text-left p-4">B</th>
+                <th class="text-left p-4">E</th>
               </tr>
             </thead>
             <tbody>
@@ -562,13 +562,17 @@
       <div class="mt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-neutral-500">
         <p>© <span id="year"></span> EdiPoint. All rights reserved.</p>
         <div class="flex items-center gap-4">
-          <a href="#" class="hover:text-neutral-700">利用規約</a>
-          <a href="#" class="hover:text-neutral-700">プライバシー</a>
-          <a href="#" class="hover:text-neutral-700">特定商取引法</a>
+          <a href="https://gmwe.co.jp/" target="_blank" rel="noopener" class="hover:text-neutral-700">運営会社</a>
+          <a href="terms.html" class="hover:text-neutral-700">利用規約</a>
+          <a href="privacy.html" class="hover:text-neutral-700">プライバシーポリシー</a>
+          <a href="law.html" class="hover:text-neutral-700">特定商取引法</a>
         </div>
       </div>
     </div>
   </footer>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 
   <!-- ==========================
        Scripts
@@ -652,6 +656,24 @@
       } catch(err){ console.error(err); alert('送信しましたが、Slack通知に失敗しました。'); }
     });
     */
+       // Before / After スライダー
+    const baRange = document.getElementById('baRange');
+    const afterImg = document.getElementById('afterImg');
+    const baValue = document.getElementById('baValue');
+    const divider = document.getElementById('divider');
+
+    if (baRange && afterImg && baValue && divider) {
+      baRange.addEventListener('input', (e) => {
+        const v = parseInt(e.target.value, 10);
+        // After画像のクリップ位置を更新
+        afterImg.style.clipPath = `inset(0 0 0 ${v}%)`;
+        // 中央の仕切り線をスライダー位置に合わせる
+        divider.style.left = `${v}%`;
+        // 表示パーセンテージ更新
+        baValue.textContent = `${v}%`;
+      });
+    }
+
 
     // Respect prefers-reduced-motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
