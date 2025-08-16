@@ -1,6 +1,149 @@
-<!doctype html>
-<html lang="ja">
-<body class="min-h-dvh">
-  <h1 class="text-3xl font-bold p-6">Hello Tailwind + Vite</h1>
-  <script type="module" src="/src/js/main.js"></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EdiPoint - PowerPointアドインツールで資料作成を90%効率化。1クリックでプロ品質のプレゼンテーションを作成。">
+    <meta name="keywords" content="PowerPoint, アドイン, プレゼンテーション, 効率化, ビジネス">
+    <title>EdiPoint - あなたのプレゼンを1クリックでプロ品質に</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Tailwind CSS -->
+    <link href="./dist/output.css" rel="stylesheet">
+    
+    <!-- Google Fonts (preload for performance) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="EdiPoint - あなたのプレゼンを1クリックでプロ品質に">
+    <meta property="og:description" content="PowerPointアドインツールで資料作成を90%効率化">
+    <meta property="og:image" content="https://your-domain.com/og-image.jpg">
+    <meta property="og:url" content="https://your-domain.com">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EdiPoint - あなたのプレゼンを1クリックでプロ品質に">
+    <meta name="twitter:description" content="PowerPointアドインツールで資料作成を90%効率化">
+    <meta name="twitter:image" content="https://your-domain.com/twitter-image.jpg">
+</head>
+<body class="font-sans bg-white">
+    <!-- Header Navigation -->
+    <header class="fixed top-0 w-full z-50 glass-effect">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-primary to-blue-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">E</span>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-900">EdiPoint</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-primary transition-colors font-medium">機能</a>
+                    <a href="#demo" class="text-gray-600 hover:text-primary transition-colors font-medium">デモ</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-primary transition-colors font-medium">料金</a>
+                    <a href="#faq" class="text-gray-600 hover:text-primary transition-colors font-medium">FAQ</a>
+                    <button class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors font-medium">
+                        無料で試す
+                    </button>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="#features" class="text-gray-600 hover:text-primary transition-colors font-medium py-2">機能</a>
+                    <a href="#demo" class="text-gray-600 hover:text-primary transition-colors font-medium py-2">デモ</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-primary transition-colors font-medium py-2">料金</a>
+                    <a href="#faq" class="text-gray-600 hover:text-primary transition-colors font-medium py-2">FAQ</a>
+                    <button class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors font-medium mt-2">
+                        無料で試す
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-fade-in-left">
+                    <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+                        あなたの<span class="text-gradient">スライド</span>を<br>
+                        1クリックで<br>
+                        <span class="text-gradient">プロ品質</span>に
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        PowerPointアドイン「EdiPoint」で、資料作成時間を<span class="font-semibold text-primary">90%削減</span>。
+                        デザイン統一、ブランド適用、レイアウト調整が自動化されます。
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <button class="bg-primary text-white px-8 py-4 rounded-lg hover:bg-primary-dark transition-all font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            無料トライアル開始
+                        </button>
+                        <button class="border-2 border-primary text-primary px-8 py-4 rounded-lg hover:bg-primary hover:text-white transition-all font-semibold text-lg">
+                            デモを見る
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-6 text-sm text-gray-600">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>14日間無料</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>クレジットカード不要</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="animate-fade-in-right">
+                    <div class="relative">
+                        <div class="bg-gradient-animated p-1 rounded-2xl shadow-2xl animate-float">
+                            <div class="bg-white rounded-2xl p-6">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&crop=center" 
+                                     alt="PowerPoint with EdiPoint interface" 
+                                     class="w-full h-auto rounded-lg shadow-lg"
+                                     loading="lazy">
+                            </div>
+                        </div>
+                        <!-- Floating UI elements -->
+                        <div class="absolute -top-4 -right-4 bg-white p-4 rounded-lg shadow-lg animate-pulse-slow">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <span class="text-sm font-medium">デザイン統一済み</span>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 bg-white p-4 rounded-lg shadow-lg animate-pulse-slow" style="animation-delay: 1s;">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-primary rounded-full"></div>
+                                <span class="text-sm font-medium">作業時間90%短縮</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Continue with rest of the content... -->
+    <!-- (Include all other sections from the original artifact) -->
+
+    <!-- Scripts -->
+    <script src="./src/js/main.js"></script>
+</body>
+</html>
