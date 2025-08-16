@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "build-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
-    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "build": "node ./node_modules/tailwindcss/lib/cli.js -i ./src/input.css -o ./dist/output.css --minify"
     "dev": "concurrently \"npm run build-css\" \"live-server --port=3000\"",
     "start": "live-server --port=3000"
   },
